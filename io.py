@@ -37,9 +37,11 @@ def insert_one_doc(coll, doc):
             print('> [have existed!] coll: {}, _id: {}\n'.format(coll.full_name, _id))
 
 
-def save_response_body(url, response_body, response_type=''):
+def save_response_body(url, coll_response_body, response_body, response_type=''):
     """保存请求结果，避免多次请求"""
     if not coll_response_body.find_one({'_id': url}):
+        if response_type == 'selector':  #
+            response_body = response_body.response.text
         coll_response_body.insert({'_id': url, 'url': url, 'response_body': response_body, 'response_type': response_type})
         print('> [new!] save_response_body(url, response_body, response_type='') -> {}\n'.format(url))
 
