@@ -15,6 +15,14 @@ import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.action_chains import ActionChains
 
 
+def get_current_time(time_format='%Y-%m-%d %H:%M:%S'):
+    """获得系统当前时间"""
+    return time.strftime(time_format, time.localtime())
+
+def get_13_timestamp():
+    return int(time.time() * 1000)
+
+
 def init_browser(url='https://www.baidu.com'):
     """初始化浏览器"""
 
@@ -50,11 +58,6 @@ def list2dic(mat, field_tup):
 ##field_tup = ('name', 'score')
 ##res = list2dic(mat, field_tup)
 ##print(list(res))
-
-
-def get_current_time(time_format='%Y-%m-%d %H:%M:%S'):
-    """获得系统当前时间"""
-    return time.strftime(time_format, time.localtime())
 
 
 def has_chinease(st):
