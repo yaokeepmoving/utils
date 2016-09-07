@@ -20,6 +20,7 @@ def get_current_time(time_format='%Y-%m-%d %H:%M:%S'):
     return time.strftime(time_format, time.localtime())
 
 def get_13_timestamp():
+    """13位unix时间戳"""
     return int(time.time() * 1000)
 
 
@@ -40,7 +41,6 @@ def init_browser(url='https://www.baidu.com'):
 def test_func(func, *args, **kwargs):
     """测试函数"""
     func_call = func(*args, **kwargs)
-
 
 
 def list2dic(mat, field_tup):
