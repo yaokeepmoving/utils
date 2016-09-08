@@ -105,7 +105,7 @@ class CXExtractor(object):
     def find_surge(self, blocks, end_i, thres, is_first_match):
         for i in range(end_i, len(blocks)-3):
             if is_first_match:
-                if blocks[i] > thres/2:
+                if blocks[i] > thres//2:
                     if blocks[i+1] > 0 or \
                        blocks[i+2] > 0:
                         return i
@@ -125,6 +125,7 @@ class CXExtractor(object):
         return len(blocks) - 1
 
     def extract_title(self, text):
+
         match = self._title.search(text)
         if not match:
             match = self._title2.search(text)
@@ -164,7 +165,9 @@ class CXExtractor(object):
         #print 'sum_blocks:', sum_blocks
         #print 'lines:', len(lines)
 
-        thres = min( thres, (sum_blocks*5/len(blocks)/2) << (num_empty/(len(lines)-num_empty) >> 1) )
+        # python2中,/取整，如： 14/5 = 2; 而python 3中, 14/5 =2.8, 14 // 5 = 2
+##        thres = min( thres, (sum_blocks*5/len(blocks)/2) << (num_empty/(len(lines)-num_empty) >> 1) ) # python 2版本
+        thres = min( thres, (sum_blocks*5//len(blocks)//2) << (num_empty//(len(lines)-num_empty) >> 1) )  # Python 3 版本
         thres = max( thres, 120 )
 
         #print 'thres:', thres
@@ -180,7 +183,7 @@ class CXExtractor(object):
 
             sub_content = '\n'.join([v for v in lines[start_i:end_i+1] if v])
             content += sub_content + '\n'
-            if end_i >= len(blocks)/2:
+            if end_i >= len(blocks)//2:
                 if self._end.search(sub_content):
                     break
         return self._multi.sub(' ', content)
@@ -191,8 +194,8 @@ class CXExtractor(object):
         _title = self.extract_title(text)
         _keywords = self.extract_keywords(text)
         _desc = self.extract_description(text)
-        text = self.preprocess(text)
-        _content = self.extract_content(text, _thres or self.default_threshold)
+        text = self.preprocess(text)  # 全文，会有不想要的内容
+        _content = self.extract_content(text, _thres or self.default_threshold)  # 相当于正文中的精华部分
         return [_title, _content, _keywords, _desc]
 
 
@@ -213,7 +216,7 @@ def normalize_raw_html(raw_html):
         except:
             pass
     raw_html = raw_html.decode(best_match[0], 'ignore').encode('utf-8')
-    return raw_html
+    return raw_html.decode('utf-8')
 
 
 def apply_cx_extractor(raw_html):
