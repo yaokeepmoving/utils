@@ -10,6 +10,7 @@ import random
 import re
 import time
 import json
+from .tools import get_current_time
 
 
 def compare_doc_keys(old_doc, new_doc):
@@ -24,6 +25,7 @@ def insert_one_doc(coll, doc):
     """插入一条记录"""
     _id = doc.get('_id')
     if not coll.find_one({'_id': _id}):
+        doc['create_time'] = get_current_time()
         coll.insert(doc)
         print('> [new doc!] coll: {}, _id: {}\n'.format(coll.full_name, _id))
     else:

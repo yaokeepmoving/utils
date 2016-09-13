@@ -13,6 +13,12 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import selenium.webdriver.support.ui as ui
 from selenium.webdriver.common.action_chains import ActionChains
+import hashlib
+
+
+def get_md5_str(ori_str, encoding='utf-8'):
+    """MD5加密"""
+    return hashlib.md5(ori_str.encode(encoding=encoding)).hexdigest()
 
 
 def get_current_time(time_format='%Y-%m-%d %H:%M:%S'):

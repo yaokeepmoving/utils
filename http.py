@@ -125,7 +125,9 @@ def get_response_body(url, return_type='selector', timeout=20, try_times=1, dela
             try:
                 resp = requests.get(url, headers=headers, timeout=timeout, proxies=random_proxy)
                 print('html: status_code -> {}\n'.format(resp.status_code))
-                return resp.content.decode('utf-8')  # response返回的是bytes，需要转换成string
+##                encoding_type = resp.encoding
+##                return resp.content.decode(encoding_type)  # response返回的是bytes，需要转换成string
+                return resp.text
 
             except:
                 fail_times += 1
